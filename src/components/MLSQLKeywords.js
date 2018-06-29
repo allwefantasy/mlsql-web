@@ -37,7 +37,25 @@ class MLSQLKeywords {
       "append",
       "overwrite",
       "errorIfExists",
-      'ignore'
+      "ignore", ""
+    ]
+  }
+
+  static datasources() {
+    return [
+      "parquet", "json", "csv", "image"
+    ]
+  }
+
+  static models() {
+    return [
+      "PythonAlg", "ConfusionMatrix", "TfIdfInPlace", "RateSampler"
+    ]
+  }
+
+  static functions() {
+    return [
+      "onehot"
     ]
   }
 }

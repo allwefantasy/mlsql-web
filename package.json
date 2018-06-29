@@ -15,8 +15,11 @@
   },
   "dependencies": {
     "@lossendae/vue-table": "^0.1.8",
+    "axios": "^0.18.0",
     "emmet": "git+https://github.com/cloud9ide/emmet-core.git#41973fcc70392864c7a469cf5dcd875b88b93d4a",
     "express": "^4.16.3",
+    "sinon": "^6.0.1",
+    "sinon-test": "^2.2.0",
     "vue": "^2.5.2",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.0.1",

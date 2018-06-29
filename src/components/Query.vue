@@ -27,7 +27,7 @@
               width="100%"
               height="100px"
       ></editor>
-      <vtable v-if="result.tableData.length>0" :table-data="result.tableData" :columns="result.columns"></vtable>
+      <vtable  v-if="result.tableData.length>0" :table-data="result.tableData" :columns="result.columns"></vtable>
     </div>
   </div>
 
