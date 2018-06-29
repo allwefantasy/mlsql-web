@@ -12,6 +12,9 @@ mlsql-web是一个基于VueJs2的前端应用,
 4. 可以通过快捷键自动注释/去掉注释多条语句
 5. 还有更多。。。。
 
+
+![](https://github.com/allwefantasy/mlsql-web/tree/master/images/WX20180629-105204@2x.png)
+
 ## Build Setup
 
 ``` bash
