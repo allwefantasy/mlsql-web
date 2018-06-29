@@ -13,7 +13,7 @@ mlsql-web是一个基于VueJs2的前端应用,
 5. 还有更多。。。。
 
 
-![](https://github.com/allwefantasy/mlsql-web/tree/master/images/WX20180629-105204@2x.png)
+![pic](https://github.com/allwefantasy/mlsql-web/tree/master/images/WX20180629-105204@2x.png)
 
 ## Build Setup
 
