@@ -1,6 +1,9 @@
 # mlsql-web
 
-MLSQL是一个基于VueJs2的前端应用。提供了一个基于ACE的SQL编辑器。
+mlsql-web是一个基于VueJs2的前端应用,
+目前已经集成到[StreamingPro](https://github.com/allwefantasy/streamingpro)中。你下载并且启动[StreamingPro](https://github.com/allwefantasy/streamingpro)
+后访问首页即可看到该编辑器。
+
 提供的功能有：
 
 1. MLSQL关键词的自动补全
