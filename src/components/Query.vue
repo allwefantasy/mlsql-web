@@ -56,6 +56,10 @@
           enableSnippets: true,
           enableLiveAutocompletion: true
         },
+        resource: {
+          job_url: "/run/script",
+          kill_job_url: "/killjob"
+        },
         holder: {},
         result: {
           columns: [],
@@ -92,7 +96,7 @@
       },
       submitRunSQL: function (event) {
 
-        const resource = "http://127.0.0.1:9003/run/script"
+        const resource = this.resource.job_url
         const options = {
           emulateJSON: true
         }
@@ -144,7 +148,7 @@
         })
       },
       cancelJob: function (event) {
-        const resource = "http://127.0.0.1:9003/killjob"
+        const resource = this.resource.kill_job_url
         const options = {
           emulateJSON: true
         }

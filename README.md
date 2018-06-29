@@ -1,6 +1,13 @@
 # mlsql-web
 
-> none
+MLSQL是一个基于VueJs2的前端应用。提供了一个基于ACE的SQL编辑器。
+提供的功能有：
+
+1. MLSQL关键词的自动补全
+2. 可以执行选中的语句/或者全部语句
+3. 关键字+tab可以自动扩展成语句模板，避免句法错误。
+4. 可以通过快捷键自动注释/去掉注释多条语句
+5. 还有更多。。。。
 
 ## Build Setup
 
@@ -26,5 +33,3 @@ npm run e2e
 # run all tests
 npm test
 ```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
