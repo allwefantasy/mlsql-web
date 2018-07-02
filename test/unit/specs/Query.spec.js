@@ -21,7 +21,7 @@ describe('Query', () => {
     sandbox.restore()
   })
 
-  it('#submitRunSQL should work fine', () => {
+  it('#submitRunSQL should work fine', (done) => {
     const vm = getVM(Query)
 
     const expectedParams = {
@@ -34,14 +34,17 @@ describe('Query', () => {
       a: 1, b: "jack"
     }]
 
-    server.respondWith('POST', vm.resource.job_url, (xhr) => {
-      xhr.respond(200, {'Content-Type': 'application/json'}, JSON.stringify(expectedBody))
-    })
-
+    server.respondWith('POST', vm.resource.job_url, [200, {"Content-Type": "application/json"},
+      JSON.stringify(expectedBody)])
+    // server.respondImmediately = true
     //server.autoRespond = true
     vm.submitRunSQL({})
     server.respond()
-    expect(vm.result.tableData).toEqual(expectedBody)
+    setTimeout(function () {
+      // This one works, but it's quirky and a possible error is not well represented in the HTML output.
+      expect(vm.result.tableData).toEqual(expectedBody)
+      done()
+    }, 100);
     //expect(vm.$el.querySelector("#show_result").textContent).toEqual('select 1 as a,\'jack\' as b as bbc;')
   })
 })
