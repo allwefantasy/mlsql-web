@@ -7,6 +7,12 @@ export const getVM = (component) => {
   return vm
 }
 
+export const getVMWithPropsData = (component, propsData) => {
+  const Constructor = Vue.extend(component)
+  const vm = new Constructor({propsData}).$mount()
+  return vm
+}
+
 export const getCommonVM = (render, components) => {
   return new Vue({
     el: document.createElement('div'),

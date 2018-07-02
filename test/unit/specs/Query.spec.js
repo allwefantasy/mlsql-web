@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import sinon from 'sinon'
-import {getVM, initVueResource} from "./helper/VueHelper"
-import Query from '../../../src/components/Query'
+import {getVM, getVMWithPropsData, initVueResource} from "./helper/VueHelper"
+import Query from '@/components/Query'
+import Table from '@/components/Table'
 
 
 describe('Query', () => {
@@ -40,10 +41,22 @@ describe('Query', () => {
     // or we can use callback,but this will change submitRunSQL parameter declaration
     // Async/Await is also  a better way
     setTimeout(function () {
+      expect(vm.content).toEqual("select 1 as a,'jack' as b as bbc;")
       expect(vm.result.tableData).toEqual(expectedBody)
+      expect(vm.$el.querySelector(".div-table-row").length > 0)
       done()
     }, 100);
 
+  })
+
+  it('#Table component should assign correctly', () => {
+    const expectedBody = [{
+      a: 1, b: "jack"
+    }]
+    const expectedColumns = ["a", "b"]
+    const vm = getVMWithPropsData(Table, {columns: expectedColumns, tableData: expectedBody})
+    expect(vm.tableData).toEqual(expectedBody)
 
   })
+
 })
