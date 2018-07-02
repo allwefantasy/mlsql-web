@@ -24,12 +24,6 @@ describe('Query', () => {
   it('#submitRunSQL should work fine', (done) => {
     const vm = getVM(Query)
 
-    const expectedParams = {
-      "sql": vm.result.content,
-      "owner": "admin",
-      "jobName": vm.jobName
-    }
-
     const expectedBody = [{
       a: 1, b: "jack"
     }]
@@ -38,13 +32,18 @@ describe('Query', () => {
       JSON.stringify(expectedBody)])
     // server.respondImmediately = true
     //server.autoRespond = true
+    // let callback = function(){
+    //   expect(vm.result.tableData).toEqual(expectedBody)
+    // }
     vm.submitRunSQL({})
     server.respond()
+    // or we can use callback,but this will change submitRunSQL parameter declaration
+    // Async/Await is also  a better way
     setTimeout(function () {
-      // This one works, but it's quirky and a possible error is not well represented in the HTML output.
       expect(vm.result.tableData).toEqual(expectedBody)
       done()
     }, 100);
-    //expect(vm.$el.querySelector("#show_result").textContent).toEqual('select 1 as a,\'jack\' as b as bbc;')
+
+
   })
 })
