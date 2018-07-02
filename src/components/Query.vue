@@ -45,6 +45,7 @@
 
   const uuidv4 = require('uuid/v4');
   const base_url = "http://127.0.0.1:9003"
+  //const base_url = ""
 
   export default {
     name: 'Query',
