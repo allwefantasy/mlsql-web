@@ -10,10 +10,8 @@ module.exports = {
 
     browser
       .url(devServer)
-      .waitForElementVisible('#app', 5000)
-      .assert.elementPresent('.hello')
-      .assert.containsText('h1', 'Welcome to Your Vue.js App')
-      .assert.elementCount('img', 1)
-      .end()
+      .waitForElementVisible('#app', 5000).click("#runButton").pause(1000)
+    browser.expect.element(".div-table-col").to.be.visible
+    browser.end()
   }
 }

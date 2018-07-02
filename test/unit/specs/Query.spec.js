@@ -22,6 +22,16 @@ describe('Query', () => {
     sandbox.restore()
   })
 
+  it('#Table component should assign correctly', () => {
+    const expectedBody = [{
+      a: 1, b: "jack"
+    }]
+    const expectedColumns = ["a", "b"]
+    const vm = getVMWithPropsData(Table, {columns: expectedColumns, tableData: expectedBody})
+    expect(vm.tableData).toEqual(expectedBody)
+
+  })
+
   it('#submitRunSQL should work fine', (done) => {
     const vm = getVM(Query)
 
@@ -46,17 +56,6 @@ describe('Query', () => {
       expect(vm.$el.querySelector(".div-table-row").length > 0)
       done()
     }, 100);
-
-  })
-
-  it('#Table component should assign correctly', () => {
-    const expectedBody = [{
-      a: 1, b: "jack"
-    }]
-    const expectedColumns = ["a", "b"]
-    const vm = getVMWithPropsData(Table, {columns: expectedColumns, tableData: expectedBody})
-    expect(vm.tableData).toEqual(expectedBody)
-
   })
 
 })

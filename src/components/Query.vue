@@ -15,7 +15,7 @@
               :options="editor_options"
       ></editor>
       <div>
-        <button v-on:click="submitRunSQL" class="btn btn-run waves-effect">运行</button>
+        <button id="runButton" v-on:click="submitRunSQL" class="btn btn-run waves-effect">运行</button>
         <button v-on:click="cancelJob" class="btn btn-cancel waves-effect">取消</button>
       </div>
       <vloading v-if="result.loading"></vloading>
@@ -44,6 +44,7 @@
   import MLSQLTemplate from './MLSQLTemplate'
 
   const uuidv4 = require('uuid/v4');
+  const base_url = "http://127.0.0.1:9003"
 
   export default {
     name: 'Query',
@@ -57,8 +58,9 @@
           enableLiveAutocompletion: true
         },
         resource: {
-          job_url: "/run/script",
-          kill_job_url: "/killjob"
+
+          job_url: base_url + "/run/script",
+          kill_job_url: base_url + "/killjob"
         },
         holder: {},
         result: {
