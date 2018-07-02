@@ -44,7 +44,8 @@
   import MLSQLTemplate from './MLSQLTemplate'
 
   const uuidv4 = require('uuid/v4');
-  const base_url = "http://127.0.0.1:9003"
+  const base_url = process.env.API_ROOT
+  console.log(base_url)
   //const base_url = ""
 
   export default {
