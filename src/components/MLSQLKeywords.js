@@ -9,7 +9,10 @@ class MLSQLKeywords {
       getCompletions: function (editor, session, pos, prefix, callback) {
         callback(
           null,
-          MLSQLKeywords.keywords().filter(entry => {
+          MLSQLKeywords.keywords().concat(
+            MLSQLKeywords.datasources(),
+            MLSQLKeywords.models()
+          ).filter(entry => {
             return entry.includes(prefix);
           }).map(entry => {
             return {

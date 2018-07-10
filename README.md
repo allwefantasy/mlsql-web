@@ -15,6 +15,14 @@ mlsql-web是一个基于VueJs2的前端应用,
 
 ![pic](./images/WX20180629-105204@2x.png)
 
+## 同时....
+
+这也是一个示例项目，我会尽可能将vuejs 2.0 的一些优雅实践沉淀在这个项目里。
+
+## FAQ
+
+
+
 ## Build Setup
 
 ``` bash

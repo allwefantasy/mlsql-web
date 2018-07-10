@@ -5,6 +5,11 @@
       <span>编辑器模式</span>:
       <vSelect v-model="result.editor_mode_selected" :options="result.editor_modes"></vSelect>
     </div>
+
+    <div class="dropdown-menu">
+      <vSelect v-if="completer.show" v-model="result.editor_mode_selected" :options="result.editor_modes"></vSelect>
+    </div>
+
     <div id="editor">
       <editor v-model="content"
               @init="editorInit"
@@ -42,11 +47,10 @@
   import MLSQLKeywords from './MLSQLKeywords'
   import MLSQLEditorHolder from './MLSQLEditorHolder'
   import MLSQLTemplate from './MLSQLTemplate'
+  import MLSQLTrainCompleter from "@/components/MLSQLTrainCompleter";
 
   const uuidv4 = require('uuid/v4');
   const base_url = process.env.API_ROOT
-  console.log(base_url)
-  //const base_url = ""
 
   export default {
     name: 'Query',
@@ -73,18 +77,19 @@
           loading: false,
           editor_modes: [
             {
-              id: 0, label: "normal"
+              id: 0, label: "正常模式"
             },
             {
-              id: 1, label: "vim"
+              id: 1, label: "vim模式"
             }
           ],
           editor_mode_selected: {
-            id: 0, label: "normal"
+            id: 0, label: "正常模式"
           }
+        },
+        completer: {
+          show: false
         }
-
-
       }
     },
     methods: {
@@ -95,8 +100,8 @@
         const self = this
         this.holder = new MLSQLEditorHolder(self)
         new MLSQLKeywords(this.holder).register()
-        new MLSQLTemplate(this.holder).register()
-
+        new MLSQLTemplate(this).register()
+        new MLSQLTrainCompleter(this).register()
       },
       submitRunSQL: function (event) {
 
@@ -107,6 +112,12 @@
         const self = this
         self.jobName = uuidv4()
         self.result.loading = true
+
+        //clean preview table
+        self.result.tableData = []
+        self.result.columns = []
+        //clean preview msg
+        self.result.msg = ""
 
         let selectContent = self.holder.tool().selection()
         let final_sql = self.content
@@ -137,6 +148,7 @@
           self.result.columns = keys;
           // use keys to get column
           self.result.tableData = []
+
           data.forEach(function (item) {
             let new_item = {}
             keys.forEach(function (key) {

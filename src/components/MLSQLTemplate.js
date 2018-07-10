@@ -1,6 +1,8 @@
 class MLSQLTemplate {
-  constructor(holder) {
-    this._holder = holder
+  constructor(main) {
+
+    this._holder = main.holder
+
   }
 
   register() {
