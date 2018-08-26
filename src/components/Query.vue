@@ -162,6 +162,12 @@
         })
       },
       cancelJob: function (event) {
+
+        if (/set\s+streamName/.test(this.content)) {
+          alert("stream job is not support here")
+          return
+        }
+
         const resource = this.resource.kill_job_url
         const options = {
           emulateJSON: true

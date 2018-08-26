@@ -58,4 +58,14 @@ describe('Query', () => {
     }, 100);
   })
 
+  it('#test is test', () => {
+    const vm = getVM(Query)
+    vm.content = "-- the stream name, should be uniq.\n" +
+      "set streamName=\"streamExample\";\n" +
+      "\n" +
+      "-- connect mysql as the data sink.\n" +
+      "connect jdbc where  "
+    expect(/set\s+streamName/.test(vm.content)).toEqual(true)
+  })
+
 })

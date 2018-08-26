@@ -11,10 +11,5 @@ export default {
 </script>
 
 <style>
-#app {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
+
 </style>

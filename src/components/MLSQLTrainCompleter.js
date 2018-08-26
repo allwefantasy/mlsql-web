@@ -10,9 +10,9 @@ class MLSQLTrainCompleter {
     const holder = this._holder
     const editor = this._holder.editor()
     const session = editor.getSession()
-    editor.on('guttermousedown',function (e) {
-      console.log(holder.tool().selection())
-    })
+    // editor.on('guttermousedown',function (e) {
+    //   console.log(holder.tool().selection())
+    // })
   }
 
   getTrainLine() {
