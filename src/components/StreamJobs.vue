@@ -11,6 +11,7 @@
           <div class="job-item-content">任务类型：{{job.jobType}}</div>
           <div class="job-item-content">任务内容：{{job.jobContent}}</div>
           <div class="job-item-content">任务启动时间：{{job.startTime}}</div>
+          <button v-on:click="killJob(job.jobType,job.groupId)">关闭任务</button>
         </div>
       </div>
 
@@ -24,22 +25,12 @@
 
 <script>
 
-  const uuidv4 = require('uuid/v4');
-  const base_url = process.env.API_ROOT
-  const groupBy = function (list, key) {
-    return list.reduce(function (rv, x) {
-      (rv[x[key]] = rv[x[key]] || []).push(x)
-      return rv
-    }, {})
-  }
+  import Backend from "./Backend"
+
   export default {
     name: 'StreamJobs',
     data() {
       return {
-        resource: {
-          batch_jobs_url: base_url + "/runningjobs",
-          stream_jobs_url: base_url + "/stream/jobs/running"
-        },
         usersWithJobs: []
       }
     },
@@ -47,42 +38,16 @@
       this.fetchJobList()
     },
     methods: {
+      killJob: function (jobType, jobId) {
+        const self = this
+        const backend = new Backend(self.$http)
+        backend.killJob(jobType, jobId)
+        self.usersWithJobs = backend.fetchJobs()
+      },
       fetchJobList: function () {
         const self = this
-        const options = {
-          emulateJSON: true
-        }
-
-        self.$http.post(self.resource.stream_jobs_url, {}, options).then(ok => {
-          // first we should group by ower
-          //self.usersWithJobs =
-          const formatStartTime = function (items) {
-            for (let item of items) {
-              item.startTime = new Date(item.startTime).toLocaleDateString("en-US")
-            }
-          }
-          const groupByOwner = groupBy(ok.data, "owner")
-          const renderRes = []
-          for (let key in groupByOwner) {
-            formatStartTime(groupByOwner[key])
-            renderRes.push({"owner": key, "jobs": groupByOwner[key]})
-          }
-          self.$http.post(self.resource.batch_jobs_url, {}, options).then(ok => {
-
-            const groupByOwner = groupBy(Object.values(ok.data), "owner")
-
-            for (let key in groupByOwner) {
-              formatStartTime(groupByOwner[key])
-              renderRes.push({"owner": key, "jobs": groupByOwner[key]})
-            }
-            self.usersWithJobs = renderRes
-          }, notok => {
-            console.log(notok.bodyText)
-          })
-
-        }, notok => {
-          console.log(notok.bodyText)
-        })
+        const backend = new Backend(self.$http)
+        self.usersWithJobs = backend.fetchJobs()
       }
     },
     components: {}
@@ -102,7 +67,7 @@
   }
 
   .job-boarder {
-    width: 271px;
+    width: 180px;
     max-height: 100%;
     margin: 10px 10px 10px 10px;
     border: coral;

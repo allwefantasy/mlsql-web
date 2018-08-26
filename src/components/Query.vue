@@ -1,6 +1,6 @@
 <template>
-
   <div class="query_box">
+
     <div class="editor_mode_select">
       <span>编辑器模式</span>:
       <vSelect v-model="result.editor_mode_selected" :options="result.editor_modes"></vSelect>
@@ -21,7 +21,7 @@
       ></editor>
       <div>
         <button id="runButton" v-on:click="submitRunSQL" class="btn btn-run waves-effect">运行</button>
-        <button v-on:click="cancelJob" class="btn btn-cancel waves-effect">取消</button>
+        <a href="#/stream/jobs" class="btn btn-run waves-effect" style="text-decoration: none">任务列表</a>
       </div>
       <vloading v-if="result.loading"></vloading>
     </div>
@@ -47,7 +47,8 @@
   import MLSQLKeywords from './MLSQLKeywords'
   import MLSQLEditorHolder from './MLSQLEditorHolder'
   import MLSQLTemplate from './MLSQLTemplate'
-  import MLSQLTrainCompleter from "@/components/MLSQLTrainCompleter";
+  import MLSQLTrainCompleter from "./MLSQLTrainCompleter";
+  import Backend from "./Backend"
 
   const uuidv4 = require('uuid/v4');
   const base_url = process.env.API_ROOT
@@ -105,10 +106,6 @@
       },
       submitRunSQL: function (event) {
 
-        const resource = this.resource.job_url
-        const options = {
-          emulateJSON: true
-        }
         const self = this
         self.jobName = uuidv4()
         self.result.loading = true
@@ -124,61 +121,25 @@
         if (selectContent != '') {
           final_sql = selectContent
         }
-        self.$http.post(resource,
-          {
-            "sql": final_sql,
-            "owner": "admin",
-            "jobName": self.jobName
-          }, options).then(ok => {
+
+        const backend = new Backend(self.$http)
+
+        const res = backend.submitJob({
+          "sql": final_sql,
+          "owner": "admin",
+          "jobName": self.jobName
+        }, function () {
+          self.result.loading = true
+        }, function () {
+
+        }, function (msg) {
           self.result.loading = false
-          let data = ok.data
-          let keys = []
-          let basket = {};
-
-          //collect all keys
-          data.forEach(function (item) {
-            for (let key in item) {
-              if (!basket[key]) {
-                keys.push(key)
-                basket[key] = true
-              }
-            }
-          })
-
-          self.result.columns = keys;
-          // use keys to get column
-          self.result.tableData = []
-
-          data.forEach(function (item) {
-            let new_item = {}
-            keys.forEach(function (key) {
-              new_item[key] = item[key]
-            })
-            self.result.tableData.push(new_item)
-          })
-        }, notok => {
-          self.result.loading = false
-          self.result.msg = notok.bodyText
+          self.result.msg = msg
         })
-      },
-      cancelJob: function (event) {
 
-        if (/set\s+streamName/.test(this.content)) {
-          alert("stream job is not support here")
-          return
-        }
+        self.result.columns = res["columns"]
+        self.result.tableData = res["tableData"]
 
-        const resource = this.resource.kill_job_url
-        const options = {
-          emulateJSON: true
-        }
-        const self = this
-        self.$http.post(resource, {jobName: self.jobName}, options).then(ok => {
-          self.result.loading = false
-          self.result.msg = "the job is aborded success"
-        }, notok => {
-          self.result.loading = false
-        })
       }
     },
 
